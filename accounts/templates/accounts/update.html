@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>User Edit</h1>
+<form action="{% url 'accounts:update' %}" method="POST">
+  {% csrf_token %}
+  {{form.as_p}}
+  <button type="submit" class="btn btn-warning">Edit</button>
+  
+</form>
+{% endblock content %}
+

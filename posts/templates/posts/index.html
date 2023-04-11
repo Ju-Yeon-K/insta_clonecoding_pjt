@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+    {% if user.is_authenticated %}
+    <h2>Hello!</h2>
+    {{user}}님 :) 헤헷 방가
+    {% endif %}
+<hr>
+
+<a href="{% url 'accounts:logout' %}">
+  <button type="submit" class="btn btn-secondary">Log out</button>
+</a>
+<a href="{% url 'accounts:update' %}">
+  <button type="submit" class="btn btn-warning">Profile Edit</button>
+</a>
+<a href="{% url 'accounts:password' %}">
+  <button type="submit" class="btn btn-primary">Change Password</button>
+</a>
+<a href="{% url 'accounts:delete' %}">
+  <button type="submit" class="btn btn-danger">Delete Account</button>
+</a>
+<hr>
+<a href="{% url 'posts:create' %}">
+  <button type="submit" class="btn btn-primary">New Post</button></a>
+
+{% include 'posts/post.html' %}
+
+
+{% endblock content %}

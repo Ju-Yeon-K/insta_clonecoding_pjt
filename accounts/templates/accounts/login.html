@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Log in</h1>
+<div class="position-relative">
+  <form  class="d-inline-block " action="{% url 'accounts:login' %}" method="POST">
+    {% csrf_token %}
+    {{form.as_p}}
+    <button type="submit" class="btn btn-primary">Submit</button>
+    <a href="{% url 'accounts:signup' %}"><button type="button" class="btn btn-success m-1">Sign up</button></a> 
+  </form>
+  
+</div>
+{% endblock content %}
+
