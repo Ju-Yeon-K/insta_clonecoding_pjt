@@ -79,7 +79,7 @@
       {{comment.user}} <br> {{comment.content}}
       {% if request.user == comment.user %}
       {% csrf_token %}
-      <input type="submit" class ="btn btn-outline-secondary btn-sm" value = "delete">
+      <input type="submit" class="btn-close btn-sm" aria-label="Close" value ="  ">
     {% endif %}
      </form>
   </li>
