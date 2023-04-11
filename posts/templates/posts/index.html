@@ -4,14 +4,14 @@
 {% block content %}
     {% if user.is_authenticated %}
     <h2>Hello!</h2>
-    {{user}}님 :) 헤헷 방가
+    {{user}}님, 여기는 긴쥬의 소셜네트워크에요 ❤️💞💓💝💘
     {% endif %}
 <hr>
 
 <a href="{% url 'accounts:logout' %}">
   <button type="submit" class="btn btn-secondary">Log out</button>
 </a>
-<a href="{% url 'accounts:update' %}">
+<a href="{% url 'accounts:profile_update' %}">
   <button type="submit" class="btn btn-warning">Profile Edit</button>
 </a>
 <a href="{% url 'accounts:password' %}">

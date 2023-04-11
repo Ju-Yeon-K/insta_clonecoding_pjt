@@ -16,9 +16,10 @@
         <p class="card-text">{{post.content}}</p>
         <p>posted by : <a href="{% url 'profile' post.user.username%}">{{post.user}}</a></p>
         <a href="{% url 'posts:detail' post.pk %}" class="btn btn-secondary">detail</a>
+        {% if request.user == post.user %}
         <a href="{% url 'posts:update' post.pk %}" class="btn btn-primary">Edit</a>
         <a href="{% url 'posts:delete' post.pk %}" class="btn btn-danger">Delete</a>
-        
+        {% endif %}
       </div>
     </div>
     {% endfor %}

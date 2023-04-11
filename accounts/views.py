@@ -89,16 +89,8 @@ def profile_update(request):
         if request.method == "POST":
             form = ProfileForm(request.POST, request.FILES, instance=profile)
             if form.is_valid():
-                profile = form.save(commit=False)
-                profile.user_id = request.user.id # 이거 그냥 나대로 한거임
-                profile.save()
-
-                posts = request.user.post_set.all()
-                context = {
-                    'profile':profile,
-                    'posts':posts
-                    }   
-                return render(request, 'accounts/profile.html')
+                form.save()
+                return redirect('profile', request.user.username)
         else:
             form = ProfileForm(instance=profile)
         context = {

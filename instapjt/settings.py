@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'imagekit', # 이미지 저장 위하여 앱 세팅
 ]
 
 MIDDLEWARE = [
