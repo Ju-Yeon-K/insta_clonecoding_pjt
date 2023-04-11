@@ -8,5 +8,5 @@ Bootstrap 5.3
 
 2. 구현된 UI
 
-[이미지1]()
+[이미지1](images/이미지1/jpg)
  
