@@ -4,22 +4,22 @@
 
 
     {% if request.user.id == profile.user_id %} {% comment %} 같은 유저일때 {% endcomment %}
-    <h2>환영합니다! {{user}}님</h2>
+    <h3>환영합니다! {{user}}님</h3>
     {% else %}  {% comment %} 다른 유저일때 {% endcomment %}
     <h2>{{profile.user}} 님의 프로필</h2>
     <hr>
     {% endif %}
     {% if profile.image_file %}
-      <img src="{{ profile.image_file.url }}" class="card-img-top mt-2">
+      <img src="{{ profile.image_file.url }}" class="card-img-top imgbox mt-2">
     {% endif %}
     
-    <p>닉네임 : {% if profile.nickname %} {{profile.nickname}} {% else %}등록된 닉네임이 없어욤 ㅜㅜ</p>
+    <p class="m-2">  {% if profile.nickname %} {{profile.nickname}} {% else %}등록된 닉네임이 없어욤 ㅜㅜ</p>
     {% endif %}
     
-    <p>자기소개 : {% if profile.introduction %} {{profile.introduction}}{% else %}등록된 자기 소개글이 없어욤 ㅜㅜ </p>
+    <p class="mx-2">  자기소개 : {% if profile.introduction %} {{profile.introduction}}{% else %}등록된 자기 소개글이 없어욤 ㅜㅜ </p>
     {% endif %}
     
-    <br>
+    <br><br>
     {% if request.user.id == profile.user_id %} 
     <a href="{% url 'accounts:logout' %}">
       <button type="submit" class="btn btn-secondary">Log out</button>

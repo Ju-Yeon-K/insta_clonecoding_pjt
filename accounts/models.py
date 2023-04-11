@@ -2,10 +2,6 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.conf import settings
 
-from PIL import Image
-from io import BytesIO
-from django.core.files import File
-from pilkit.processors import Thumbnail
 from imagekit.models import ImageSpecField
 from imagekit.processors import ResizeToFill
 

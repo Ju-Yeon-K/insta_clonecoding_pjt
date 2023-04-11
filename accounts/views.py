@@ -91,8 +91,9 @@ def profile_update(request):
             if form.is_valid():
                 form.save()
                 return redirect('profile', request.user.username)
-        else:
-            form = ProfileForm(instance=profile)
+     
+
+        form = ProfileForm(instance=profile)
         context = {
             'form':form
         }
