@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+
+    {% if request.user.id == profile.user_id %} {% comment %} 같은 유저일때 {% endcomment %}
+    <h2>환영합니다! {{user}}님 :)</h2>
+    {% if profile.image_file %}
+      <img src="{{ profile.image_file }}" class="card-img-top mt-2">
+      {% endif %}
+    
+    <p>닉네임 : {% if profile.nickname %} {{profile.nickname}} {% else %}등록된 닉네임이 없어욤 ㅜㅜ</p>
+    {% endif %}
+    
+    <p>자기소개 : {% if profile.introduction %} {{profile.introduction}}{% else %}등록된 자기 소개글이 없어욤 ㅜㅜ </p>
+    {% endif %}
+    <br><br>
+    
+    <a href="{% url 'accounts:logout' %}">
+      <button type="submit" class="btn btn-secondary">Log out</button>
+    </a>
+    <a href="{% url 'accounts:update' %}">
+      <button type="submit" class="btn btn-warning">Profile Edit</button>
+    </a>
+    <a href="{% url 'accounts:password' %}">
+      <button type="submit" class="btn btn-primary">Change Password</button>
+    </a>
+    <a href="{% url 'accounts:delete' %}">
+      <button type="submit" class="btn btn-danger">Delete Account</button>
+    </a>
+
+
+    {% else %}  {% comment %} 다른 유저일때 {% endcomment %}
+    <h1>{{profile.user}} 님의 프로필</h1>
+    <hr>
+    {% if profile.image_file %}
+      <img src="{{ profile.image_file }}" class="card-img-top mt-2">
+      {% endif %}
+    
+    <p>닉네임 : {% if profile.nickname %} {{profile.nickname}} {% else %}등록된 닉네임이 없어욤 ㅜㅜ</p>
+    {% endif %}
+    
+    <p>자기소개 : {% if profile.introduction %} {{profile.introduction}}{% else %}등록된 자기 소개글이 없어욤 ㅜㅜ </p>
+    {% endif %}
+
+    {% endif %}
+<hr>
+
+{% include 'posts/post.html' %}
+
+
+
+{% endblock content %}

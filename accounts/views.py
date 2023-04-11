@@ -4,7 +4,9 @@ from django.contrib.auth import logout as auth_logout
 
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.forms import AuthenticationForm, PasswordChangeForm
-from .forms import CustomUserCreationForm, CustomUserChangeForm
+from .forms import CustomUserCreationForm, CustomUserChangeForm, ProfileForm
+from .models import User, Profile
+
 
 # Create your views here.
 def login(request):
@@ -27,7 +29,8 @@ def signup(request):
         form = CustomUserCreationForm(request.POST)
         if form.is_valid():
             user = form.save()
-
+            profile = Profile(user_id=user.id)
+            profile.save()
             auth_login(request, user)
             return redirect('posts:index') 
     else:
@@ -69,3 +72,37 @@ def change_password(request):
         form = PasswordChangeForm(request.user)
     context = {'form':form}
     return render(request, 'accounts/password.html', context)
+
+def profile(request, user_name):
+    user = User.objects.get(username=user_name)
+    profile = Profile.objects.get(user_id=user.id)
+    posts = user.post_set.all()
+    context = {
+        'profile':profile,
+        'posts':posts
+    }
+    return render(request, 'accounts/profile.html', context)
+
+def profile_update(request):
+    if request.user.is_authenticated:
+        profile = Profile.objects.get(user_id=request.user.id)
+        if request.method == "POST":
+            form = ProfileForm(request.POST, request.FILES, instance=profile)
+            if form.is_valid():
+                profile = form.save(commit=False)
+                profile.user_id = request.user.id # 이거 그냥 나대로 한거임
+                profile.save()
+
+                posts = request.user.post_set.all()
+                context = {
+                    'profile':profile,
+                    'posts':posts
+                    }   
+                return render(request, 'accounts/profile.html')
+        else:
+            form = ProfileForm(instance=profile)
+        context = {
+            'form':form
+        }
+        return render(request, 'accounts/profile_update.html', context)
+    return redirect('accounts:login')

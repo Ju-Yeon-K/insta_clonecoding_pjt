@@ -71,7 +71,6 @@ def detail(request, pk):
     comment_form = CommentForm()
 
     count_a = post.comment_set.filter().count()
-    print(count_a)
 
     context = {'post':post, 'comments' : comments,'comment_form':comment_form,}
     return render(request, 'posts/detail.html', context)
