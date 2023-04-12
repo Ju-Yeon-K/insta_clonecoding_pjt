@@ -74,6 +74,9 @@ def change_password(request):
     return render(request, 'accounts/password.html', context)
 
 def profile(request, user_name):
+    # 만약 커스텀 유저모델이라면 아래 추가
+    # from django.contrib.auth import get_user_model
+    # User = get_user_model()
     user = User.objects.get(username=user_name)
     profile = Profile.objects.get(user_id=user.id)
     posts = user.post_set.all()
@@ -99,3 +102,14 @@ def profile_update(request):
         }
         return render(request, 'accounts/profile_update.html', context)
     return redirect('accounts:login')
+
+def follow(request, user_pk):
+    if request.method=="POST":
+        person = User.objects.get(pk=user_pk)
+        if request.user != person:
+            if person.followers.filter(pk=request.user.pk).last():
+                person.followers.remove(request.user)
+            else:
+                person.followers.add(request.user)
+    return redirect('profile', person.username)
+    

@@ -6,7 +6,7 @@ class Post(models.Model):
     like_users = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='like_posts')
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     content = models.TextField()
-    image = models.ImageField(blank=True)
+    image = models.ImageField(null =True, blank=True)
 
 class Comment(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE) # , related_name='comments' 넣ㅇ면 _set 대신 요거 사용 가능
