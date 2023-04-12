@@ -10,13 +10,21 @@
         {% if post.image %}
         <img src="{{ post.image.url }}" class="card-img-top mt-2 imgsizing">
         {% endif %}
-        </a><div class="card-body">
-          {% comment %} <h5 class="card-title"></h5> {% endcomment %}
-          <p>
-            <span id="boot-icon" class="bi bi-heart" style="font-size: 1rem; -webkit-text-stroke-width: 1.5px; color: rgb(255, 0, 0);"></span>
-            {{post.like_users.count}}
-          </i>
-          </p>
+        </a>
+        
+        <div class="card-body">
+            <form action="{% url 'posts:likes' post.pk %}" method="POST">
+              {% csrf_token %}
+              <p>
+                {% if request.user not in post.like_users.all %}
+              <i  class="far fa-heart" style="color: crimson;"></i>
+                {% else %}
+              <i type="submit" class="fas fa-heart" style="color: crimson;"></i>
+              {% endif %}
+              {{post.like_users.count}}
+              </p>
+            </form>
+          
           <p class="card-text">{{post.content}}</p>
           <p>posted by : <a href="{% url 'profile' post.user.username%}">{{post.user}}</a>
           {% comment %} <a href="{% url 'posts:detail' post.pk %}" class="btn btn-secondary">detail</a> {% endcomment %}

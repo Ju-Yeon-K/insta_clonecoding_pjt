@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from .forms import PostForm, CommentForm
 from .models import Post, Comment
+from django.views.decorators.http import require_http_methods, require_POST, require_safe
 
 def index(request):
     if request.user.is_authenticated:
@@ -50,7 +51,7 @@ def update(request, pk):
         return render(request, 'posts/form.html', context)
     return redirect('posts:detail', post.pk)
 
-
+@require_POST
 def comments_create(request, pk): # detail 이 아니니까 index 에 연결하면에러뜸 ㅠ
     if request.user.is_authenticated:
         post = Post.objects.get(pk=pk)
