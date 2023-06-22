@@ -5,7 +5,7 @@
   <br><br>
   <span>Instagram, 일상을 담다</span><br>
   <span>인스타그램을 벤치마킹하여 구현한 사진 공유 기반 커뮤니티 플랫폼 토이 프로젝트입니다. </span>
-</p>   
+</p>     
 
 ### 🦜. 프로젝트 목표   
 - 인스타그램의 핵심 기능을 구현하는 것이 목표입니다. 
@@ -23,12 +23,13 @@
   <img src="./images/project.png" style="width:800px">
 </p>   
  
-### 🦜. 기술 스택
-- Django 3.2.1
-- Bootstrap 5.3
+### 🦜. 구현중 이슈&해결과정
+- 블로그에 작성 후 link 걸어둘 예정
 
  
 ### 🦜. ERD
 
-참고 자료들
+### 🦜. 화면 프로토 타입
+
+참고 문헌
 https://dingrr.com/blog/post/django-redis-celery-%EC%A1%B0%ED%95%A9%EC%9C%BC%EB%A1%9C-%EB%B9%84%EB%8F%99%EA%B8%B0-%EC%9E%91%EC%97%85
