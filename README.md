@@ -33,9 +33,12 @@
 <h3><img src="./images/1.png" style="width:22px">. ERD</h3>   
 
 
-<h3><img src="./images/1.png" style="width:22px">. 화면 프로토 타입</h3>   
-
-
+<h3><img src="./images/1.png" style="width:22px">. 화면 프로토 타입</h3>
+- 미완성 본이므로 참고만
+<p align="center">   
+  <img src="./images/22.png" style="width:800px">
+  <img src="./images/11.png" style="width:800px">
+</p>
 
 참고 문헌
 https://dingrr.com/blog/post/django-redis-celery-%EC%A1%B0%ED%95%A9%EC%9C%BC%EB%A1%9C-%EB%B9%84%EB%8F%99%EA%B8%B0-%EC%9E%91%EC%97%85
