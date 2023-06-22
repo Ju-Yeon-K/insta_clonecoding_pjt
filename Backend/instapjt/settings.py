@@ -25,14 +25,33 @@ SECRET_KEY = 'django-insecure-jkpzslw782mao^(gsisdkeh5+o)!bw$=oz%er%geg#=)*l%cyo
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    '127.0.0.1',
+    'localhost'
+]
 
 
 # Application definition
 
 INSTALLED_APPS = [
+    # apps
     'posts',
-    'accounts',
+    'accounts',   
+    
+    # Auth
+    'rest_framework',
+    'rest_framework.authtoken', 
+    'rest_auth',
+    'dj_rest_auth',
+    'dj_rest_auth.registration',
+    "corsheaders",
+    
+    # registration
+    'django.contrib.sites',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -42,9 +61,14 @@ INSTALLED_APPS = [
     'imagekit', # 이미지 저장 위하여 앱 세팅
 ]
 
+REST_AUTH = { # 회원가입시 토큰 발급
+    'SESSION_LOGIN': False,
+}
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    "corsheaders.middleware.CorsMiddleware",
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -53,6 +77,11 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'instapjt.urls'
+
+
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:8080"
+]
 
 TEMPLATES = [
     {
@@ -69,6 +98,20 @@ TEMPLATES = [
         },
     },
 ]
+
+REST_FRAMEWORK = {
+    # Authentication
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+    ],
+
+    # permission
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.AllowAny',
+        # 'rest_framework.permissions.IsAuthenticated'
+    ],
+}
 
 WSGI_APPLICATION = 'instapjt.wsgi.application'
 
@@ -108,7 +151,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'ko-kr'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Seoul'
 
 USE_I18N = True
 
@@ -128,6 +171,6 @@ STATIC_URL = '/static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 MEDIA_ROOT = BASE_DIR / 'media'
-MEDIA_URL = '/media/'
+MEDIA_URL = '/api/'
 
 AUTH_USER_MODEL = 'accounts.user'
