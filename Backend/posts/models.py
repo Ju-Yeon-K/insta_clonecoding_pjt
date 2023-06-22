@@ -12,7 +12,7 @@ class Post(models.Model):
 
 
 class Comment(models.Model):
-    post = models.ForeignKey(Post, on_delete=models.CASCADE) # , related_name='comments' 넣ㅇ면 _set 대신 요거 사용 가능
+    post = models.ForeignKey(Post, on_delete=models.CASCADE , related_name='comments') 
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     content = models.CharField(max_length=140)
     created_at = models.DateTimeField(auto_now_add=True)

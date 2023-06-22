@@ -5,6 +5,7 @@ import LoginView from '../views/LoginView.vue'
 import SignupView from '../views/SignupView.vue'
 import CreatePostView from '../views/CreatePostView.vue'
 import ProfileView from '../views/ProfileView.vue'
+import PostDetail from '@/components/PostDetail.vue'
 
 Vue.use(VueRouter)
 
@@ -31,9 +32,14 @@ const routes = [
     component: CreatePostView,
   },
   {
-    path: '/profile',
+    path: '/profile/:userpk',
     name: 'profile',
     component: ProfileView,
+  },
+  {
+    path: '/postDetail/:postpk',
+    name: 'postDetail',
+    component: PostDetail,
   },
   // {
   //   path: '/about',
@@ -53,7 +59,7 @@ const router = new VueRouter({
 
 import store from '@/store'
 router.beforeEach((to, from, next)=>{
-  const isLoggedIn = store.state.token ? true : false
+  const isLoggedIn = store.state.token
   const allowPages = ['login', 'signup']
   const isAuthRequired = !allowPages.includes(to.name)
 

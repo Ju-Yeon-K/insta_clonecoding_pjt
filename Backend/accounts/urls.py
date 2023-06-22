@@ -14,13 +14,13 @@ urlpatterns = [
     path('login/', LoginView.as_view(), name='rest_login'),
     path('logout/', LogoutView.as_view(), name='rest_logout'),
     path('password/change/', PasswordChangeView.as_view(), name='rest_password_change'),
-    
+    path('<str:user_name>/', views.profile, name="profile"),
     # path('login/', views.login, name='login'),
     # path('logout/', views.logout, name='logout'),
     # path('signup/', views.signup, name='signup'),
-    path('delete/', views.delete, name='delete'),
-    path('update/', views.update, name='update'),
+    # path('delete/', views.delete, name='delete'),
+    # path('update/', views.update, name='update'),
     # path('password/', views.change_password, name='password'),
-    path('profile_update/', views.profile_update, name='profile_update'),
-    path('follow/<int:user_pk>/', views.follow, name='follow'),
+    # path('profile_update/', views.profile_update, name='profile_update'),
+    # path('follow/<int:user_pk>/', views.follow, name='follow'),
 ]
