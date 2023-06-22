@@ -4,7 +4,7 @@ from rest_framework import status
 from rest_framework.pagination import PageNumberPagination
 
 from .models import Post, Comment
-from .serializers import PostSerializer
+from .serializers import PostSerializer, CommentSerializer, PostUpdateSerializer
 
 
 @api_view(('GET',))
@@ -37,52 +37,38 @@ def delete(request, pk):
 def detail(request, pk):
     post = Post.objects.get(pk=pk)
     serializer = PostSerializer(post)
-
     return Response(serializer.data, status=status.HTTP_200_OK)
 
-# def update(request, pk):
-#     post = Post.objects.get(pk=pk)
-#     if request.user == post.user:
-#         if request.method == 'POST':
-#             form = PostForm(request.POST, request.FILES, instance=post)
-#             form.save()
-#             return redirect('posts:index')
-#         else:
-#             form = PostForm(instance=post)
-#         context = {
-#             'form':form, 
-#             'post':post
-#         }
-#         return render(request, 'posts/form.html', context)
-#     return redirect('posts:detail', post.pk)
+@api_view(('PUT',))
+def update(request, pk):
+    post = Post.objects.get(pk=pk)
+    content = request.data.get('content')
+    src = request.FILES.get('image')
+    serializer = PostUpdateSerializer(post, data=request.data)
+    if serializer.is_valid(raise_exception=True):
+        serializer.save(user=request.user)
+    return Response(status=status.HTTP_201_CREATED)
 
-# @require_POST
-# def comments_create(request, pk): # detail 이 아니니까 index 에 연결하면에러뜸 ㅠ
-#     if request.user.is_authenticated:
-#         post = Post.objects.get(pk=pk)
-#         comment_form = CommentForm(request.POST)
-        
-#         if comment_form.is_valid():
-#             comment = comment_form.save(commit=False)
-#             comment.post = post
-#             comment.user = request.user
-#             comment.save()
+@api_view(('POST',))
+def comments_create(request, pk): 
+    post = Post.objects.get(pk=pk)
+    serializer = CommentSerializer(data=request.data)
+    if serializer.is_valid(raise_exception=True):
+        serializer.save(user=request.user, post=post)
+    return Response(serializer.data, status=status.HTTP_200_OK)
 
-#         return redirect('posts:detail', post.pk)
-#     return redirect('accounts:login')
+@api_view(('DELETE',))
+def comments_delete(request, post_pk, comment_pk):
+    comment = Comment.objects.get(pk=comment_pk)
+    if request.user == comment.user:
+        comment.delete()
+    return Response(status=status.HTTP_200_OK)
 
-
-# def comments_delete(request, post_pk, comment_pk):
-#     comment = Comment.objects.get(pk=comment_pk)
-#     if request.user == comment.user:
-#         comment.delete()
-#     return redirect('posts:detail', post_pk)
-
-# def likes(request, post_pk):
-#     post = Post.objects.get(pk=post_pk)
-#     if request.method == 'POST':
-#         if post.like_users.filter(pk=request.user.pk).last():
-#             post.like_users.remove(request.user)
-#         else:
-#             post.like_users.add(request.user)
-#     return redirect('posts:detail', post_pk)
+@api_view(('POST',))
+def likes(request, post_pk):
+    post = Post.objects.get(pk=post_pk)
+    if post.like_users.filter(pk=request.user.pk).last():
+        post.like_users.remove(request.user)
+    else:
+        post.like_users.add(request.user)
+    return Response(status=status.HTTP_200_OK)

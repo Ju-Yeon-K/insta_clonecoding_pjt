@@ -14,13 +14,13 @@
                 </span>
                 <router-link :to="{ name:'profile', params: {userpk : post.user}  }" class="card-text" >{{post.user}}</router-link> 
 
-                <!--여기 누르면 action="{% url 'posts:likes' post.pk %}" method="POST" -->
-                <i class="far fa-heart" style="color: crimson;"></i> <!--if request.user not in post.like_users.all-->
-                <i type="submit" class="fas fa-heart" style="color: crimson;"></i> <!--if request.user not in post.like_users.all-->
-                <p class="card-text">{{post.like_users}}</p>
+                <p class="card-text">
+                  <i class="far fa-heart" style="color: crimson;"></i>
+                  {{post.like_users}}
+                </p>
 
                 <div class="logo d-flex justify-content-end"> <!--여기 설정 -->
-                  <router-link :to="{ name:'postUpdate' }">✏️Edit</router-link>
+                  <router-link :to="{ name:'updatepost', params: { postpk : post.pk} }">✏️Edit</router-link>
                   <a href="#" @click.prevent="deletePost(post.pk, $event)">🗑️Delete</a>
                 </div>
                 </div> 

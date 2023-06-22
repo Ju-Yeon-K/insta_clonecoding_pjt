@@ -6,6 +6,7 @@ import SignupView from '../views/SignupView.vue'
 import CreatePostView from '../views/CreatePostView.vue'
 import ProfileView from '../views/ProfileView.vue'
 import PostDetail from '@/components/PostDetail.vue'
+import UpdatePostView from '../views/UpdatePostView.vue'
 
 Vue.use(VueRouter)
 
@@ -40,6 +41,11 @@ const routes = [
     path: '/postDetail/:postpk',
     name: 'postDetail',
     component: PostDetail,
+  },
+  {
+    path: '/update/:postpk',
+    name: 'updatepost',
+    component: UpdatePostView,
   },
   // {
   //   path: '/about',
