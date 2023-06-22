@@ -18,16 +18,15 @@ def post_list(request):
     paginator.page_size = 12
     return_list = paginator.paginate_queryset(posts, request)
     response = paginator.get_paginated_response(return_list)
-
     return Response(response.data, status=status.HTTP_200_OK)
 
 
 @api_view(('POST',))
 def create(request):
-    serializer = PostSerializer(data=request.data)
-    if serializer.is_valid(raise_exception=True):
-        serializer.save(user=request.user)
-    return Response({'msg':'리뷰가 작성됨.'}, status=status.HTTP_201_CREATED)
+    content = request.data.get('content')
+    src = request.FILES['image']
+    Post.objects.create(image=src, user=request.user, content=content)
+    return Response({'msg':'게시물이 작성됨.'}, status=status.HTTP_201_CREATED)
 
 def delete(request, pk):
     post = Post.objects.get(pk=pk)

@@ -21,12 +21,15 @@ export default new Vuex.Store({
     SAVE_TOKEN(state, token) {
       state.token = token
     },
+    SAVE_USERNAME(state, username) {
+      state.username = username
+    },
+
   },
   actions: {
     login(context, payload) {
       const username = payload.username
       const password = payload.password
-      console.log(username)
       axios({
         method: 'post',
         url: `${API_URL}/accounts/login/`,
@@ -36,7 +39,7 @@ export default new Vuex.Store({
       })
       .then((res) => {
         context.commit('SAVE_TOKEN', res.data.key)
-        this.state.username = username
+        context.commit('SAVE_USERNAME', username)
         router.push({name : 'home'})
       })
       .catch((err) => {
@@ -53,7 +56,7 @@ export default new Vuex.Store({
       })
       .then((res) => {
         context.commit('SAVE_TOKEN', null)
-        this.state.username = "AnonymousUser"
+        context.commit('SAVE_USERNAME', "AnonymousUser")
         router.push({name : 'login'})
       })
       .catch((err)=> {
@@ -74,7 +77,7 @@ export default new Vuex.Store({
       })
         .then((res) => {
           context.commit('SAVE_TOKEN', res.data.key)
-          this.state.username = username
+          context.commit('SAVE_USERNAME', username)
           router.push({name : 'home'})
         })
         .catch((err) => {

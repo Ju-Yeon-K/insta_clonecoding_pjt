@@ -6,8 +6,7 @@
 
             <div class="mb-3">
             <label for="formFile" class="form-label">Photo</label>
-            <v-file-input v-model="file" name="files" class="form-control" type="file" id="formFile" />
-            <input type="file" class="form-control" id="formFile">
+            <v-file-input v-model="file" name="files" class="form-control" type="file" id="formFile"></v-file-input> 
             </div>
 
         </div>
@@ -33,7 +32,7 @@ export default {
   data() {
     return {
       content: null,
-      image: null,
+      file: [],
     }
   },
   computed: {
@@ -41,25 +40,32 @@ export default {
       return this.$store.state.token
     },
   },
-  methods: {
+  methods:{
     CreatePost() {
-      const content = this.content
-      const image = this.image
+      const info = new FormData()
+      info.append('image', this.file)
+      info.append('content', this.content)
+      const config = {
+        headers: {
+          'Content-Type': 'multipart/form-data', // Content-Type을 변경해야 파일이 전송됨
+          'Authorization': `Token ${this.token}`
+          }
+      }
+
       axios({
         method: 'post',
         url: `${API_URL}/posts/create/`,
-        data: {
-          content, image
-        },
+        data: info,
         headers: {
-          "Authorization": "Token " + this.token
-        }
+          'Content-Type': 'multipart/form-data', // Content-Type을 변경해야 파일이 전송됨
+          'Authorization': 'Token ' + this.token
+          }
       })
-        .then((res) => {
-          this.$router.push({name : 'profile'})
-        })
-        .catch((err) => {
-            console.log(err)
+      .then((res) => {
+        this.$router.push({name : 'profile'})
+      })
+      .catch((err) => {
+        console.log(err)
       })
     },
   }
