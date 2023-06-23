@@ -2,34 +2,33 @@ from rest_framework import serializers
 from .models import Post, Comment
 from accounts.models import User
 
-class PostSerializer(serializers.ModelSerializer):
+class PostDetailSerializer(serializers.ModelSerializer):
     comments = serializers.SerializerMethodField()
-    user_name = serializers.SerializerMethodField()
     like_cnt = serializers.SerializerMethodField()
-    like_users_name = serializers.SerializerMethodField()
     
     def get_comments(self, obj):
         comments_list = obj.comments.all().values(
-            'content', 'user_id', 'id' , 'created_at', 'updated_at'
-            ).order_by('-created_at')
+            'content', 'user', 'id' , 'created_at', 'updated_at'
+            ).order_by('created_at')
         return comments_list
-    def get_user_name(self, obj):
-        name = obj.user.username
-        return name
-    def get_like_cnt(self, obj):
-        cnt = obj.like_users.count()
-        return cnt
-    def get_like_users_name(self, obj):
-        res_list = []
-        for user in obj.like_users.all():
-            res_list.append(user.username)
-        return res_list
 
+    def get_like_cnt(self, obj):
+        return obj.like_users.count()
+    
     class Meta:
         model = Post
-        fields = ('pk', 'user', 'content', 'image', 'created_at', 'updated_at', 'comments','user_name','like_cnt','like_users_name')
-        # read_only_fields = ['user', 'like_users']
-        
+        fields = ('pk', 'user', 'like_users', 'content', 'image', 'created_at', 'updated_at', 'comments', 'like_cnt',)
+
+class PostSerializer(serializers.ModelSerializer):
+    like_cnt = serializers.SerializerMethodField()
+
+    def get_like_cnt(self, obj):
+        return obj.like_users.count()
+    
+    class Meta:
+        model = Post
+        fields = ('pk', 'user', 'like_users', 'content', 'image', 'created_at', 'updated_at', 'like_cnt',)
+
 class PostUpdateSerializer(serializers.ModelSerializer):
 
     class Meta:

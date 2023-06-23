@@ -62,10 +62,10 @@
           </div>
         </div>
     
-        <div v-if="nickname" class="row ms-2">{{}} </div> 
+        <div v-if="nickname" class="row ms-3">{{}} </div> 
         <div v-else class="row m-2">No NickName</div>
 
-        <div v-if="introduction" class="row ms-2">{{}}</div>
+        <div v-if="introduction" class="row ms-3">{{}}</div>
         <div v-else class="row mx-2">No Introduction</div>
 
         <div class="row">

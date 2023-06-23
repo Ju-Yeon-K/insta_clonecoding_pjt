@@ -34,7 +34,7 @@ const routes = [
     component: CreatePostView,
   },
   {
-    path: '/profile/:userpk',
+    path: '/profile/:user',
     name: 'profile',
     component: ProfileView,
   },

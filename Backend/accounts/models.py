@@ -16,5 +16,5 @@ class Profile(models.Model):
     
     
 class User(AbstractUser):
+    username = models.CharField(max_length=10, primary_key=True)
     followings = models.ManyToManyField('self', symmetrical=False, related_name="followers")
-    pass

@@ -47,7 +47,7 @@ export default {
       info.append('content', this.content)
       const config = {
         headers: {
-          'Content-Type': 'multipart/form-data', // Content-Type을 변경해야 파일이 전송됨
+          'Content-Type': 'multipart/form-data', 
           'Authorization': `Token ${this.token}`
           }
       }
@@ -57,12 +57,12 @@ export default {
         url: `${API_URL}/posts/create/`,
         data: info,
         headers: {
-          'Content-Type': 'multipart/form-data', // Content-Type을 변경해야 파일이 전송됨
+          'Content-Type': 'multipart/form-data', 
           'Authorization': 'Token ' + this.token
           }
       })
       .then((res) => {
-        this.$router.push({name : 'profile'})
+        this.$router.push({name : 'home'})
       })
       .catch((err) => {
         console.log(err)

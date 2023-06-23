@@ -4,7 +4,7 @@
       <img :src="'http://127.0.0.1:8000'+ post_info.image" class="card-img-top">
       <div class="card-body">
         <h5 class="card-title">
-          <router-link :to="{ name:'profile', params: { userpk : post_info.user} }" class="card-text" >{{post_info.user_name}}</router-link>
+          <router-link :to="{ name:'profile', params: { user : post_info.user} }" class="card-text" >{{post_info.user_name}}</router-link>
         </h5>
         <p class="card-text">{{post_info.content}}</p>
 
@@ -37,7 +37,8 @@
 
           <div v-for="comment in post_info.comments" :key='comment.pk' class="d-flex justify-content-between">
             <div style="width:18rem;">
-              {{comment.user_id}} : {{comment.content}} 
+              <router-link :to="{ name:'profile', params: { user : post_info.user} }" class="card-text" >{{comment.user}}</router-link>
+               : {{comment.content}} 
             </div>
             <div>
               {{comment.created_at.slice(0,10)}}
@@ -64,7 +65,7 @@ export default {
     return{
       post_pk:this.$route.params.postpk,
       post_info:null,
-      is_user_liked:null,
+      is_user_liked:false,
       comment_cnt:0,
       comment:null,
     }
@@ -88,9 +89,9 @@ export default {
       })
       .then((res) => {
         this.post_info = res.data
-        this.is_user_liked = this.post_info.like_users_name.includes(this.username)
+        this.is_user_liked = this.post_info.like_users.includes(this.username)
         this.comment_cnt = this.post_info.comments.length
-        this.comment = null
+        
       })
       .catch((err) => {
         console.log(err)
@@ -105,7 +106,7 @@ export default {
           }
       })
       .then((res) => {
-        this.getPostList()
+        this.$router.push({name : 'home'})
       })
       .catch((err) => {
         console.log(err)
@@ -139,6 +140,7 @@ export default {
         }
       })
       .then((res) => {
+        this.comment = null
         this.getPostInfo()
       })
       .catch((err) => {

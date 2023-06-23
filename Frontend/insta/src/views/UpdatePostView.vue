@@ -52,7 +52,7 @@ export default {
       })
       .then((res) => {
         this.content = res.data.content
-        this.file = res.data.image
+        this.file = res.data.image // 이거 디폴트 값 되게 하기
       })
       .catch((err) => {
         console.log(err)

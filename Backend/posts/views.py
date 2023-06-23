@@ -4,18 +4,17 @@ from rest_framework import status
 from rest_framework.pagination import PageNumberPagination
 
 from .models import Post, Comment
-from .serializers import PostSerializer, CommentSerializer, PostUpdateSerializer
+from .serializers import PostSerializer, CommentSerializer, PostUpdateSerializer, PostDetailSerializer
 
 
 @api_view(('GET',))
 def post_list(request):
-    posts = Post.objects.all().values(
-            'pk', 'image', 'content', 'user', 'like_users'
-    ).order_by('-created_at')
-    
+    posts = Post.objects.all()
+    serializers = PostSerializer(posts, many=True)
+
     paginator = PageNumberPagination()
     paginator.page_size = 12
-    return_list = paginator.paginate_queryset(posts, request)
+    return_list = paginator.paginate_queryset(serializers.data, request)
     response = paginator.get_paginated_response(return_list)
     return Response(response.data, status=status.HTTP_200_OK)
 
@@ -36,7 +35,7 @@ def delete(request, pk):
 @api_view(('GET',))
 def detail(request, pk):
     post = Post.objects.get(pk=pk)
-    serializer = PostSerializer(post)
+    serializer = PostDetailSerializer(post)
     return Response(serializer.data, status=status.HTTP_200_OK)
 
 @api_view(('PUT',))

@@ -14,7 +14,6 @@ export default new Vuex.Store({
   state: {
     token: null,
     username: "AnonymousUser",
-    my_pk:1,
   },
   getters: {
   },
