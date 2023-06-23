@@ -13,8 +13,8 @@ class Profile(models.Model):
     introduction  = models.TextField(null=True, blank=True)
     image_raw = models.ImageField(null=True, blank=True)
     image_file = ImageSpecField(source='image_raw', processors = [ResizeToFill(300,300)], format='jpeg', options={'quality': 90})
-    
-    
+
+
 class User(AbstractUser):
     username = models.CharField(max_length=10, primary_key=True)
     followings = models.ManyToManyField('self', symmetrical=False, related_name="followers")

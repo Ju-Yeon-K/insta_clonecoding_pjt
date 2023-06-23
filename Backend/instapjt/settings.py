@@ -78,7 +78,6 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'instapjt.urls'
 
-
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:8080"
 ]

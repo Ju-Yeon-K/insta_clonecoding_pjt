@@ -18,6 +18,17 @@ def post_list(request):
     response = paginator.get_paginated_response(return_list)
     return Response(response.data, status=status.HTTP_200_OK)
 
+@api_view(('GET',))
+def user_post_list(request, user):
+    posts = Post.objects.filter(user=user)
+    serializers = PostSerializer(posts, many=True)
+
+    paginator = PageNumberPagination()
+    paginator.page_size = 12
+    return_list = paginator.paginate_queryset(serializers.data, request)
+    response = paginator.get_paginated_response(return_list)
+    return Response(response.data, status=status.HTTP_200_OK)
+
 @api_view(('POST',))
 def create(request):
     content = request.data.get('content')

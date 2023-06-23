@@ -1,14 +1,45 @@
-from django.shortcuts import render, redirect
-from django.contrib.auth import login as auth_login
-from django.contrib.auth import logout as auth_logout
 
-from django.contrib.auth import update_session_auth_hash
-from django.contrib.auth.forms import AuthenticationForm, PasswordChangeForm
-from .forms import CustomUserCreationForm, CustomUserChangeForm, ProfileForm
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from rest_framework import status
+from rest_framework.pagination import PageNumberPagination
+
+from django.shortcuts import get_object_or_404, get_list_or_404
+
 from .models import User, Profile
+from .serializers import UserProfileSerializer, ProfileSerializer
 
 
-# Create your views here.
+@api_view(('GET',))
+def profile(request, user_name):
+    user = get_object_or_404(User, username=user_name)
+    serializer = UserProfileSerializer(user)
+    return Response(serializer.data, status=status.HTTP_200_OK)
+
+@api_view(('POST',))
+def follow(request, user_name):
+    person = User.objects.get(username=user_name)
+    if request.user != person:
+        if person.followers.filter(pk=request.user.pk).last():
+            person.followers.remove(request.user)
+        else:
+            person.followers.add(request.user)
+    return Response(status=status.HTTP_201_CREATED)
+
+@api_view(('POST',))
+def update_profile(request):
+    nickname = request.data.get('nickname')
+    introduction = request.data.get('introduction')
+    src = request.FILES['image_raw']
+    profile = Profile.objects.filter(user=request.user).last()
+    if profile:
+        serializer = ProfileSerializer(profile, data=request.data, partial=True)
+        if serializer.is_valid(raise_exception=True):
+            serializer.save()
+        return Response(status=status.HTTP_200_OK)
+    Profile.objects.create(image_raw=src, user=request.user, introduction=introduction, nickname=nickname)
+    return Response(status=status.HTTP_201_CREATED)
+
 
 # def delete(request):
 #     if request.user.is_authenticated:
@@ -21,56 +52,3 @@ from .models import User, Profile
 #             return render(request, 'accounts/delete.html')
 #     else:
 #         return redirect('accounts:login')
-    
-# def update(request):
-#     if request.method == "POST":
-#         form = CustomUserChangeForm(request.POST, instance=request.user)
-#         if form.is_valid():
-#             form.save()
-#             return redirect('posts:index') 
-#     else:
-#         form = CustomUserChangeForm(instance=request.user)
-#     context = {'form':form}
-#     return render(request, 'accounts/update.html', context)
-
-
-def profile(request, user_name):
-    # 만약 커스텀 유저모델이라면 아래 추가
-    # from django.contrib.auth import get_user_model
-    # User = get_user_model()
-    user = User.objects.get(username=user_name)
-    profile = Profile.objects.get(user_id=user.id)
-    posts = user.post_set.all()
-    context = {
-        'profile':profile,
-        'posts':posts
-    }
-    return render(request, 'accounts/profile.html', context)
-
-# def profile_update(request):
-#     if request.user.is_authenticated:
-#         profile = Profile.objects.get(user_id=request.user.id)
-#         if request.method == "POST":
-#             form = ProfileForm(request.POST, request.FILES, instance=profile)
-#             if form.is_valid():
-#                 form.save()
-#                 return redirect('profile', request.user.username)
-     
-
-#         form = ProfileForm(instance=profile)
-#         context = {
-#             'form':form
-#         }
-#         return render(request, 'accounts/profile_update.html', context)
-#     return redirect('accounts:login')
-
-# def follow(request, user_pk):
-#     if request.method=="POST":
-#         person = User.objects.get(pk=user_pk)
-#         if request.user != person:
-#             if person.followers.filter(pk=request.user.pk).last():
-#                 person.followers.remove(request.user)
-#             else:
-#                 person.followers.add(request.user)
-#     return redirect('profile', person.username)
-    

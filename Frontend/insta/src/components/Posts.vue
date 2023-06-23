@@ -23,7 +23,7 @@
                   </button>
                 </p>
 
-                <div class="logo d-flex justify-content-end"> <!--여기 설정 -->
+                <div v-if="post.user==username" class="logo d-flex justify-content-end"> <!--여기 설정 -->
                   <router-link :to="{ name:'updatepost', params: { postpk : post.pk} }">✏️Edit</router-link>
                   <a href="#" @click.prevent="deletePost(post.pk, $event)">🗑️Delete</a>
                 </div>

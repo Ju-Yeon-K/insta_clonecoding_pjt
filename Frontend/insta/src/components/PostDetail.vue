@@ -1,14 +1,14 @@
 <template>
   <div class="d-flex justify-content-center">
     <div class="card m-2" style="width: 30rem;">
-      <img :src="'http://127.0.0.1:8000'+ post_info.image" class="card-img-top">
+      <img :src="'http://127.0.0.1:8000'+ image" class="card-img-top">
       <div class="card-body">
         <h5 class="card-title">
-          <router-link :to="{ name:'profile', params: { user : post_info.user} }" class="card-text" >{{post_info.user_name}}</router-link>
+          <router-link :to="{ name:'profile', params: { user : user} }" class="card-text" >{{user}}</router-link>
         </h5>
-        <p class="card-text">{{post_info.content}}</p>
+        <p class="card-text">{{content}}</p>
 
-        <div class="card-text d-flex justify-content-end">
+        <div class="card-text d-flex justify-content-between">
 
             <button type="button" @click.prevent="postLike">
               <svg v-if="is_user_liked" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#fe2351" class="bi bi-heart-fill" viewBox="0 0 16 16">
@@ -16,38 +16,36 @@
               </svg>   
               <svg v-else xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#fecddb" class="bi bi-heart-fill"  viewBox="0 0 16 16">
                 <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"/>
-              </svg>   {{post_info.like_cnt}}
+              </svg>   {{like_cnt}}
             </button>
-            <div class="col-8"></div>
-            <div class="logo"> <!--여기 설정 -->
+            <div v-if="user==username" class="logo"> <!--여기 설정 -->
               <router-link :to="{ name:'updatepost', params: { postpk : this.post_pk} }">✏️Edit</router-link>
               <a href="#" @click.prevent="deletePost(post.pk, $event)">🗑️Delete</a>
             </div>
         </div>
 
-        <p class="card-text mt-3">
+        <div class="card-text mt-3">
           <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-chat-left" viewBox="0 0 16 16">
-          <path d="M14 1a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H4.414A2 2 0 0 0 3 11.586l-2 2V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12.793a.5.5 0 0 0 .854.353l2.853-2.853A1 1 0 0 1 4.414 12H14a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"/>
+            <path d="M14 1a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H4.414A2 2 0 0 0 3 11.586l-2 2V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12.793a.5.5 0 0 0 .854.353l2.853-2.853A1 1 0 0 1 4.414 12H14a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"/>
           </svg> {{comment_cnt}}  Comments
-
           <div class="input-group mb-3">
-          <input type="text" class="form-control" placeholder="New Comment" aria-describedby="button-addon2" v-model="comment" @keyup.enter="commentCreate">
-          <button class="btn btn-outline-secondary" type="button" id="button-addon2" @click.prevent="commentCreate">  Post  </button>
-        </div>
+            <input type="text" class="form-control" placeholder="New Comment" aria-describedby="button-addon2" v-model="comment" @keyup.enter="commentCreate">
+            <button class="btn btn-outline-secondary" type="button" id="button-addon2" @click.prevent="commentCreate">  Post  </button>
+          </div>
 
-          <div v-for="comment in post_info.comments" :key='comment.pk' class="d-flex justify-content-between">
+          <div v-for="comment in comments" :key='comment.pk' class="d-flex justify-content-between">
             <div style="width:18rem;">
-              <router-link :to="{ name:'profile', params: { user : post_info.user} }" class="card-text" >{{comment.user}}</router-link>
+              <router-link :to="{ name:'profile', params: { user : comment.user} }" class="card-text" >{{comment.user}}</router-link>
                : {{comment.content}} 
             </div>
             <div>
               {{comment.created_at.slice(0,10)}}
-              <button @click.prevent="commentDelete(comment.id, $event)">🗑️
+              <button v-if="comment.user==username" @click.prevent="commentDelete(comment.id, $event)">🗑️
               </button>
+              <div v-else style="width: 7rem;"></div>
             </div>
-        </div> 
-        </p> 
-        
+          </div> 
+        </div>
       </div>
     </div>
 
@@ -64,7 +62,13 @@ export default {
   data(){
     return{
       post_pk:this.$route.params.postpk,
-      post_info:null,
+
+      image:null,
+      user:null,
+      content:null,
+      like_cnt:0,
+      comments:[],
+
       is_user_liked:false,
       comment_cnt:0,
       comment:null,
@@ -88,10 +92,13 @@ export default {
           }
       })
       .then((res) => {
-        this.post_info = res.data
-        this.is_user_liked = this.post_info.like_users.includes(this.username)
-        this.comment_cnt = this.post_info.comments.length
-        
+        this.comment_cnt = this.comments.length
+        this.image = res.data.image
+        this.user = res.data.user
+        this.content = res.data.content
+        this.like_cnt = res.data.like_cnt
+        this.comments = res.data.comments
+        this.is_user_liked = res.data.like_users.includes(this.username)
       })
       .catch((err) => {
         console.log(err)
@@ -115,7 +122,7 @@ export default {
     postLike(){
       axios({
         method: 'POST',
-        url: `${API_URL}/posts/${this.post_info.pk}/likes/`,
+        url: `${API_URL}/posts/${this.pk}/likes/`,
         headers: {
           'Authorization': 'Token ' + this.token
           }

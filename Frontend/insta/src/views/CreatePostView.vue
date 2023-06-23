@@ -1,5 +1,5 @@
 <template>
-<div>
+  <div>
     <h1>New Post</h1>
     <div class="container">
         <div class="row">
@@ -20,7 +20,7 @@
     <br>
     <button type="submit" class="btn btn-primary ms-10" @click="CreatePost">Submit</button>
 
-</div>
+  </div>
 </template>
 
 <script>
@@ -45,12 +45,6 @@ export default {
       const info = new FormData()
       info.append('image', this.file)
       info.append('content', this.content)
-      const config = {
-        headers: {
-          'Content-Type': 'multipart/form-data', 
-          'Authorization': `Token ${this.token}`
-          }
-      }
 
       axios({
         method: 'post',
