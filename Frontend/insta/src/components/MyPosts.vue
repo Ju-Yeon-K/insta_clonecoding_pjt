@@ -19,7 +19,7 @@
                   {{post.like_users}}
                 </p>
 
-                <div class="logo d-flex justify-content-end"> <!--여기 설정 -->
+                <div class="logo d-flex justify-content-end"> 
                   <router-link :to="{ name:'updatepost', params: { postpk : post.pk} }">✏️Edit</router-link>
                   <a href="#" @click.prevent="deletePost(post.pk, $event)">🗑️Delete</a>
                 </div>
@@ -36,7 +36,7 @@ import axios from 'axios'
 const API_URL = 'http://127.0.0.1:8000'
 
 export default {
-  name:'Posts',
+  name:'MyPosts',
   data(){
     return {
       posts: [],
@@ -48,7 +48,7 @@ export default {
     }
   },
   methods:{
-    getPostList(){
+    getMyPostList(){
       axios({
         method: 'get',
         url: `${API_URL}/posts/`,
@@ -80,7 +80,7 @@ export default {
     }
   },
   created(){
-    this.getPostList()
+    this.getMyPostList()
   },
 
 }

@@ -8,15 +8,14 @@
         </span>
       </div>
       <div class="mt-auto mb-0">
-        <router-link :to="{ name:'profile' }">
+        <router-link :to="{ name:'profile', params: {userpk : this.my_user_pk}  }">
           <button type="submit" class="btn btn-warning">My Profile</button>
         </router-link>
-        <router-link :to="{ name:'passwordChange' }">
+        <!-- <router-link :to="{ name:'changepw' }">
           <button type="submit" class="btn btn-primary">Change PW</button>
-        </router-link>
-        <router-link :to="{ name:'delete' }">
-          <button type="submit" class="btn btn-danger">Delete</button>
-        </router-link>
+        </router-link> -->
+          
+
         <button @click="logout" type="submit" class="btn btn-secondary">Log out</button>
       </div>
     </div>
@@ -39,6 +38,9 @@ export default {
   },
   username(){
     return this.$store.state.username
+  },
+  my_user_pk(){
+    return this.$store.state.my_pk
   }},
   methods: {
     logout(){

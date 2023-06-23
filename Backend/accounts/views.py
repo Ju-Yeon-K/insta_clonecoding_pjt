@@ -10,17 +10,17 @@ from .models import User, Profile
 
 # Create your views here.
 
-# def delete(request):
-#     if request.user.is_authenticated:
-#         if request.method == "POST":
-#             user = request.user 
-#             user.delete()
-#             auth_logout(request)
-#             return redirect('posts:index')
-#         else:
-#             return render(request, 'accounts/delete.html')
-#     else:
-#         return redirect('accounts:login')
+def delete(request):
+    if request.user.is_authenticated:
+        if request.method == "POST":
+            user = request.user 
+            user.delete()
+            auth_logout(request)
+            return redirect('posts:index')
+        else:
+            return render(request, 'accounts/delete.html')
+    else:
+        return redirect('accounts:login')
     
 # def update(request):
 #     if request.method == "POST":

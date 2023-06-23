@@ -163,7 +163,7 @@ export default {
   },
   created(){
     this.getPostInfo()
-  }
+  },
 }
 </script>
 

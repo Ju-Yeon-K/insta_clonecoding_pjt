@@ -7,6 +7,7 @@ import CreatePostView from '../views/CreatePostView.vue'
 import ProfileView from '../views/ProfileView.vue'
 import PostDetail from '@/components/PostDetail.vue'
 import UpdatePostView from '../views/UpdatePostView.vue'
+import ChangePasswordView from '../views/ChangePasswordView.vue'
 
 Vue.use(VueRouter)
 
@@ -46,6 +47,11 @@ const routes = [
     path: '/update/:postpk',
     name: 'updatepost',
     component: UpdatePostView,
+  },
+  {
+    path: '/changepw',
+    name: 'changepw',
+    component: ChangePasswordView,
   },
   // {
   //   path: '/about',

@@ -8,12 +8,30 @@
           <span v-else class="title">내 프로필</span>
 
           <div class="mt-auto mb-0">
-          <router-link :to="{ name:'passwordChange' }">
+          <router-link :to="{ name:'changepw' }">
             <button type="submit" class="btn btn-primary mybtn">Change PW</button>
           </router-link>
-          <router-link :to="{ name:'delete' }">
-            <button type="submit" class="btn btn-danger mybtn">Delete</button>
-          </router-link>
+
+          <b-button @click="$bvModal.show('modal-scoped')" class="btn mybtn btn-primary" >Delete</b-button>
+
+              <b-modal id="modal-scoped">
+                <template #modal-header="">
+                  <!-- Emulate built in modal header close button action -->
+                  <h5>회원 탈퇴</h5>
+                </template>
+                  <p>탈퇴하면 회원 정보를 복구할 수 없습니다.</p>
+                  <p>정말로 탈퇴하시겠습니까?</p>
+                <template #modal-footer="{ Delete, cancel }">
+                  <!-- Emulate built in modal footer ok and cancel button actions -->
+                  <b-button size="sm" variant="success" @click="Delete">
+                    탈퇴할래요
+                  </b-button>
+                  <b-button size="sm" variant="danger" @click="cancel()">
+                    취소
+                  </b-button>
+                </template>
+              </b-modal>
+
           <button @click="logout" type="submit" class="btn btn-secondary mybtn">Log out</button>
         </div>
 
@@ -53,35 +71,51 @@
         <div class="row">
           <div class="col-2 mt-2">
             
-           <!-- <form action="{% url 'accounts:follow' profile.user.pk %}" method="POST">  {% if request.user != profile.user %}
-                <button type="submit" class="btn btn-secondary" style="width: 11rem;">팔로잉</button> {% if request.user in profile.user.followers.all %}
-                <button type="submit" class="btn btn-primary" style="width: 11rem;">팔로우</button>
-            </form> -->
+            <button type="button" @click.prevent="follow" v-if="!is_me">  
+                <button v-if="!is_following" type="submit" class="btn btn-secondary" style="width: 11rem;">팔로잉</button> 
+                <button v-else type="" class="btn btn-primary" style="width: 11rem;">팔로우</button>
+            </button> 
            
           </div>
         </div>
 
-        <Posts />
+        <MyPosts />
         
       </div>
 </template>
 
 <script>
-import Posts from '@/components/Posts.vue'
+import MyPosts from '@/components/MyPosts.vue'
+import axios from 'axios'
+const API_URL = 'http://127.0.0.1:8000'
+
 export default {
     name:'ProfileView',
     data() {
       return {
         user_pk:this.$route.params.userpk,
         is_me:false,
+        is_following:false,
         image_file:null,
         nickname:null,
         introduction:null,
       }
   },
   components:{
-    Posts
+    MyPosts
   },
+  methods: {
+    follow(){
+      
+    },
+    logout(){
+      this.$store.dispatch('logout')
+    },
+    Delete(){
+      console.log('실행중')
+      this.$store.dispatch('userDelete')
+    }
+  }
 
 }
 </script>

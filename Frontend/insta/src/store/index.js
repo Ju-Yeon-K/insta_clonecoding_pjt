@@ -14,6 +14,7 @@ export default new Vuex.Store({
   state: {
     token: null,
     username: "AnonymousUser",
+    my_pk:1,
   },
   getters: {
   },
@@ -92,6 +93,47 @@ export default new Vuex.Store({
             alert(message)
           }
       })
+    },
+    changePassword(context, payload) {
+      const old_password = payload.old
+      const new_password1 = payload.password1
+      const new_password2 = payload.password2
+
+      axios({
+        method: 'POST',
+        url: `${API_URL}/accounts/password/change/`,
+        data: {
+          old_password, new_password1, new_password2
+        },
+        headers: {
+          "Authorization": "Token " + this.state.token
+        }
+      })
+        .then((res) => {
+          alert('비밀번호가 변경되었습니다.')
+          router.push({ name:'profile', params: {userpk : this.state.my_pk}  })
+        })
+        .catch((err) => {
+          alert('기존 비밀번호를 잘 못 입력하였습니다.') // 추후 밸리데이션 필요함
+      })
+    },
+    userDelete(context) {
+      axios({
+        method: 'POST',
+        url: `${API_URL}/accounts/user/`,
+
+        headers: {
+          "Authorization": "Token " + this.state.token
+        }
+      })
+        .then((res) => {
+          router.push({ name:'login'})
+          context.commit('SAVE_TOKEN', null)
+        })
+        .catch((err) => {
+          console.log(err)
+      })
+      
     },
   },
   modules: {
