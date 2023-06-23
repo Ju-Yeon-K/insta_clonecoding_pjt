@@ -4,11 +4,9 @@
     <br>
     <div class="container">
     <div class="row mx-0 my-0">
-
-      <div v-for="post in posts" :key="post.pk" class="card col-4 mx-0 my-0 px-0 py-0" style="border-radius:0;border:solid 0px">
-        
+      <div v-for="post in posts" :key="post.pk" class="col-4 mx-0 my-0 px-0 py-0" style="border-radius:0;border:solid 0px">        
             <router-link :to="{ name:'postDetail', params: {postpk : post.pk} }">
-            <img :src="'http://127.0.0.1:8000'+ post.image" class="card-img-top ">
+            <img :src="'http://127.0.0.1:8000'+ post.image">
             </router-link>
 
             <!-- <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#fecddb" class="bi bi-heart-fill"  viewBox="0 0 16 16">
@@ -107,7 +105,6 @@ export default {
 *{
   text-decoration: none;
 }
-
 a {
   color: black;
 }
@@ -116,12 +113,12 @@ a:hover{
   color: rgb(117, 167, 150);
 }
 img {
-  width: 27rem;
-  height: 27rem;
+  width: 25rem;
+  height: 25rem;
   border-radius: 0;
 }
 img:hover {
-  background-color: #000;/* 까만색(0,0,0) */
-  opacity:0.5; /* 80% 불투명도 */
+  background-color: #000;
+  opacity:0.5;
 }
 </style>
