@@ -47,6 +47,8 @@ def room_create(request):
 @api_view(('GET',))
 def room_list(request):
     rooms = RoomJoin.objects.filter(user_id=request.user)
+    
+    # to_users = RoomJoin.objects.filter(room_id=rooms.)
     serializers = RoomSerializer(rooms, many=True)
     
     paginator = PageNumberPagination()
