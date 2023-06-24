@@ -183,7 +183,6 @@ export default {
           }
       })
       .then((res) => {
-        console.log(res.data)
         this.followers = res.data.followers
         this.following_cnt = res.data.following_cnt
         this.post_cnt = res.data.post_cnt
@@ -259,7 +258,6 @@ export default {
 .mybtn:hover {
   color: rgb(16, 52, 82);
   background-color: #fff;
-
 }
 .title{
   font-size: 2rem;

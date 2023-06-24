@@ -39,9 +39,14 @@ ALLOWED_HOSTS = [
 # Application definition
 
 INSTALLED_APPS = [
+    'daphne',
+    'channels',
+    
     # apps
     'posts',
     'accounts',   
+    'chat',
+    
     
     # Auth
     'rest_framework',
@@ -63,7 +68,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'imagekit', # 이미지 저장 위하여 앱 세팅
+    
+     # 이미지 저장
+    'imagekit',
 ]
 
 REST_AUTH = { # 회원가입시 토큰 발급
@@ -117,8 +124,17 @@ REST_FRAMEWORK = {
     ],
 }
 
-WSGI_APPLICATION = 'instapjt.wsgi.application'
-
+# Channels
+ASGI_APPLICATION = 'instapjt.asgi.application'
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            "hosts": [('127.0.0.1', 6379)],
+        },
+    },
+}
+# WSGI_APPLICATION = 'instapjt.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases

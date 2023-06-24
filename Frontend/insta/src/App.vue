@@ -4,7 +4,8 @@
       
       <router-link :to="{ name:'home' }">
         <a class="navbar-brand">
-          🦜 | Juyeonistagram
+          <img class="insta-icon" src="@/assets/logo.png">
+          | Juyeonistagram
         </a>
       </router-link>
 
@@ -127,4 +128,9 @@ img {
 .imgsizing {
   height: 270px;
 }
+.insta-icon{
+  width: 30px;
+  height: 30px;
+}
+
 </style>

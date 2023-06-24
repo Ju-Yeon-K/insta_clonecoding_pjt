@@ -4,7 +4,7 @@
     <br>
     <div class="container">
     <div class="row mx-0 my-0">
-      <div v-for="post in posts" :key="post.pk" class="col-4 mx-0 my-0 px-0 py-0" style="border-radius:0;border:solid 0px">        
+      <div v-for="post in posts" :key="post.pk" class="col-4 mx-0 my-2 px-0 py-0" style="border-radius:0;border:solid 0px">        
             <router-link :to="{ name:'postDetail', params: {postpk : post.pk} }">
             <img :src="'http://127.0.0.1:8000'+ post.image">
             </router-link>
@@ -120,5 +120,8 @@ img {
 img:hover {
   background-color: #000;
   opacity:0.5;
+}
+.container {
+  min-width:80rem;
 }
 </style>
