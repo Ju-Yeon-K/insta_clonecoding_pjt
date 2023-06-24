@@ -1,11 +1,14 @@
-# insta_pjt
+
 <p align="center">
   <img src="https://freepngimg.com/thumb/instagram/118504-logo-insta-download-hq.png" style="width:200px">
   <img src="https://www.91-cdn.com/hub/wp-content/uploads/2023/02/View-Instagram-without-account.jpg" style="width:350px;margin:30px">
+  <img src="https://github.com/jupearl/insta_clonecoding_pjt/assets/122427007/1cbe13b8-cd89-4271-974a-c0353d814bf4" style="width:230px">
   <br><br>
   <span>Instagram, 일상을 담다</span><br>
   <span>인스타그램을 벤치마킹하여 구현한 사진 공유 기반 커뮤니티 플랫폼 토이 프로젝트입니다. </span>
 </p>     
+
+
 
 <h3><img src="./images/1.png" style="width:22px">. 프로젝트 목표</h3>    
 
