@@ -8,6 +8,8 @@ import ProfileView from '../views/ProfileView.vue'
 import PostDetail from '@/components/PostDetail.vue'
 import UpdatePostView from '../views/UpdatePostView.vue'
 import ChangePasswordView from '../views/ChangePasswordView.vue'
+import ChatListView from '../views/ChatListView.vue'
+import ChatRoomView from '../views/ChatRoomView.vue'
 
 Vue.use(VueRouter)
 
@@ -52,6 +54,16 @@ const routes = [
     path: '/changepw',
     name: 'changepw',
     component: ChangePasswordView,
+  },
+  {
+    path: '/chatList',
+    name: 'chatList',
+    component: ChatListView,
+  },
+  {
+    path: '/chatRoom/:roompk',
+    name: 'chatRoom',
+    component: ChatRoomView,
   },
   // {
   //   path: '/about',

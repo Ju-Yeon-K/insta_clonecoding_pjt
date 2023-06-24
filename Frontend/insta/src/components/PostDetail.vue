@@ -1,6 +1,7 @@
 <template>
   <div class="d-flex justify-content-center">
     <div class="card m-2" style="width: 60rem;">
+    {{now}}
       <img :src="'http://127.0.0.1:8000'+ image" class="card-img-top">
       <div class="card-body">
         <h5 class="card-title">
@@ -13,7 +14,7 @@
             <button type="button" @click.prevent="postLike">
               <svg v-if="is_user_liked" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#fe2351" class="bi bi-heart-fill" viewBox="0 0 16 16">
                 <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"/>
-              </svg>   
+              </svg>
               <svg v-else xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#fecddb" class="bi bi-heart-fill"  viewBox="0 0 16 16">
                 <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"/>
               </svg>   {{like_cnt}}
@@ -21,7 +22,7 @@
 
             <div v-if="user==username" class="logo"> 
               <router-link :to="{ name:'updatepost', params: { postpk : this.post_pk} }">✏️Edit</router-link>
-              <a href="#" @click.prevent="deletePost(post.pk, $event)">🗑️Delete</a>
+              <a href="#" @click.prevent="deletePost(post_pk, $event)">🗑️Delete</a>
             </div>
         </div>
 
@@ -78,6 +79,8 @@ export default {
 
       is_user_liked:false,
       comment:null,
+
+      now:0,
     }
   },
   computed:{
@@ -173,11 +176,17 @@ export default {
       .catch((err) => {
         console.log(err)
       })
-    }
+    },
+    updateNow(){
+      this.now = Date.now()
+    },
   },
   created(){
     this.getPostInfo()
   },
+  mounted(){
+    this.updateNow()
+  }
 }
 </script>
 
