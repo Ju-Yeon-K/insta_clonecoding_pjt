@@ -18,6 +18,4 @@ class Message(models.Model):
     room = models.ForeignKey(Room, on_delete=models.PROTECT)
     
     created_at = models.DateTimeField(auto_now_add=True)
-    
-    def last_30_messages(self, room_id):
-        return Message.objects.filter(room_id=room_id).order_by('-created_at')[:30]
+

@@ -5,8 +5,6 @@ from . import views
 from . import consumer
 
 urlpatterns = [
-    # path('', views.index, name='index'),
-    # path('<str:room_name>/', views.room, name='room'),
     path('', views.room_list, name='room_list'),
     path('create/', views.room_create, name='room_create'),
     path('<int:room_pk>/messages/', views.message_list, name='message_list'),
