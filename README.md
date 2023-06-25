@@ -37,6 +37,7 @@
 - Chat DB 설계 (개념적 모델링 -> 논리적 모델링) -> 식별관계, 비식별관계
 - docker compose 문법
 - 검색 로그: 브라우저 쿠키/세션/로컬스토리지에 저장(*세가지 차이점 공부) -> 나중에 db에 저장하도록 변경(게시물추천/검색어추천에 반영 가능성) 
+- 장고 쿼리 요청 최적화 !!!!!  [참고](https://gaussian37.github.io/python-django-django-query-set/)
 
 <h3><img src="./images/1.png" style="width:22px">. ERD</h3>   
 <p align="center">
