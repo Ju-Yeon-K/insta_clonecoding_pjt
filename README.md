@@ -31,7 +31,12 @@
 
 <h3><img src="./images/1.png" style="width:22px">. 구현중 이슈&해결과정</h3>   
 
-- 블로그에 작성 후 link 걸어둘 예정
+- Restful 한 url 설계
+- 동기/비동기 & Django 에서 웹소켓 연결시 비동기 처리 -> AsyncWebsocketConsumer 로 
+- ASGI & WSGI (django에서 비동기 동작을 할 수 있도록 실행하는 방법 - daphne/uvicorn/gunicorn-asgi 처리가 필요)
+- Chat DB 설계 (개념적 모델링 -> 논리적 모델링) -> 식별관계, 비식별관계
+- docker compose 문법
+- 검색 로그: 브라우저 쿠키/세션/로컬스토리지에 저장(*세가지 차이점 공부) -> 나중에 db에 저장하도록 변경(게시물추천/검색어추천에 반영 가능성) 
 
 <h3><img src="./images/1.png" style="width:22px">. ERD</h3>   
 
