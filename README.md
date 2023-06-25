@@ -46,7 +46,7 @@
 [ERD CLOUD URL](https://www.erdcloud.com/d/dYATsBLJTjadJYtjW)
 
 <h3><img src="./images/1.png" style="width:22px">. 화면 프로토 타입</h3>
-- 미완성 본이므로 참고만
+- 채팅 프론트 화면은 [lavlue](https://github.com/devpla/lavlue) 님 코드 참고했습니다. :)
 <p align="center">   
   <img src="./images/22.png" style="width:800px">
   <img src="./images/11.png" style="width:800px">
