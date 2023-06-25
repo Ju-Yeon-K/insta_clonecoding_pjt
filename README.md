@@ -39,7 +39,10 @@
 - 검색 로그: 브라우저 쿠키/세션/로컬스토리지에 저장(*세가지 차이점 공부) -> 나중에 db에 저장하도록 변경(게시물추천/검색어추천에 반영 가능성) 
 
 <h3><img src="./images/1.png" style="width:22px">. ERD</h3>   
-
+<p align="center">
+  <img src="./images/erd.png" style="width:800px">
+</p>   
+[ERD CLOUD URL](https://www.erdcloud.com/d/dYATsBLJTjadJYtjW)
 
 <h3><img src="./images/1.png" style="width:22px">. 화면 프로토 타입</h3>
 - 미완성 본이므로 참고만
