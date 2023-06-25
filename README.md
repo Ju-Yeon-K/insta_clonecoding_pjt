@@ -50,8 +50,11 @@
 
 - 채팅 프론트 화면은 [lavlue](https://github.com/devpla/lavlue) 님 코드 참고했습니다. :)
 <p align="center">   
+  
   <img src="./images/22.png" style="width:800px">
-  <img src="./images/11.png" style="width:800px">
+<!--   <img src="./images/11.png" style="width:400px"> -->
+
+  <img src="./images/chat.png" style="width:800px">
 </p>
 
 참고 문헌
