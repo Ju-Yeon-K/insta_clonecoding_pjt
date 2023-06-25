@@ -110,7 +110,7 @@ export default new Vuex.Store({
       })
         .then((res) => {
           alert('비밀번호가 변경되었습니다.')
-          router.push({ name:'profile', params: {userpk : this.state.my_pk}  })
+          router.push({ name:'profile', params: {user : this.state.username}  })
         })
         .catch((err) => {
           alert('기존 비밀번호를 잘 못 입력하였습니다.') // 추후 밸리데이션 필요함

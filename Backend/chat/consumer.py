@@ -33,21 +33,27 @@ class ChatConsumer(WebsocketConsumer):
     # Receive message from WebSocket
     def receive(self, text_data):
         text_data_json = json.loads(text_data)
-        message = text_data_json["message"]
+        content = text_data_json["content"]
         # DB에 저장
-        self.save_message(message)
+        message = self.save_message(content)
         
         # Send message to room group
         async_to_sync(self.channel_layer.group_send)(
-            self.room_group_name, {"type": "chat_message", "message": message}
+            self.room_group_name, {
+                "type": "chat_message",
+                "user_id": message.user_id,
+                'content': message.content,
+                'created_at': datetime.strftime(message.created_at, '%Y-%m-%d %H:%M:%S')}
         )
 
     # Receive message from room group
     def chat_message(self, event):
-        message = event["message"]
+        user_id = event["user_id"]
+        content = event["content"]
+        created_at = event["created_at"]
 
         # Send message to WebSocket
-        self.send(text_data=json.dumps({"message": message}))
+        self.send(text_data=json.dumps({"user_id": user_id, 'content': content, 'created_at':created_at}))
     
     def save_message(self, data):
         return Message.objects.create(
