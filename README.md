@@ -48,7 +48,7 @@
 
 <h3><img src="./images/1.png" style="width:22px">. 화면 프로토 타입</h3>   
 
-- 채팅 프론트 화면은 [lavlue](https://github.com/devpla/lavlue) 님 코드 참고했습니다. :)
+- 채팅 프론트 화면 구성은 [lavlue](https://github.com/devpla/lavlue) 님 코드 참고했습니다. :)
 <p align="center">   
   
   <img src="./images/22.png" style="width:800px">
