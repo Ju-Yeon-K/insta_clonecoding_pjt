@@ -1,12 +1,11 @@
 <template>
   <div>
     <b-list-group>
-
       <!-- 채팅방 목록 -->
       <div v-for="room in rooms" :key="room.room_id">
         <!-- room.user (딕셔너리) 형태 전달해야함. -->
-        <router-link :to="{ name:'chatRoom', params: {roompk : room.room_id} }"> 
-          <b-list-group-item button>
+        <router-link :to="{ name:'chatRoom', params: {roompk : room.room_id}, query: { img_raw: room.user.image_raw} }"> 
+          <b-list-group-item button class="d-flex align-items-center justify-content-between">
             <div class="d-flex justify-content-start">
               <img v-if="room.user.image_raw" :src="'http://127.0.0.1:8000/media/'+ room.user.image_raw" class="imgbox mt-2"> 
               <img v-else src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Default_pfp.svg/340px-Default_pfp.svg.png?20220226140232" class="card-img-top imgbox mt-2">
@@ -21,9 +20,8 @@
                 </div>
               </div>
             </div>
-            
             <div class="d-flex justify-content-end">
-              <span v-if="room.message_unread_cnt" class="badge rounded-pill text-bg-primary">{{room.message_unread_cnt}}</span>
+              <span v-if="room.message_unread_cnt" class="badge rounded-pill text-bg-primary align-self-center">{{room.message_unread_cnt}}</span>
             </div>
           </b-list-group-item>
         </router-link>
@@ -69,6 +67,7 @@ export default {
         console.log(err)
       })
     },
+
   },
     created(){
       this.getChatRoomList()
@@ -87,5 +86,8 @@ export default {
   height: 50px;
   border-radius: 100%;
   border:3px solid rgb(168, 160, 160);
+}
+.space{
+  width: 40vw;
 }
 </style>

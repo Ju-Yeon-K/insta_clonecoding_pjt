@@ -64,6 +64,7 @@ const routes = [
     path: '/chatRoom/:roompk',
     name: 'chatRoom',
     component: ChatRoomView,
+    // meta: { img_raw: true }
   },
   // {
   //   path: '/about',

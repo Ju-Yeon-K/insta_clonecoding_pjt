@@ -14,6 +14,8 @@
               >
                 <!-- :class="[msg.user_id != username ? '' : 'chat__first']"  -->
 
+                <span class="badge_date">{{msg.created_at.slice(0,10)}}</span>
+                <span v-if="msg.is_read" class="badge rounded-pill text-bg-light">1</span>
                 <p class="chat__mymessage__paragraph">{{ msg.content }}</p>
               </div>
 
@@ -25,9 +27,14 @@
               
                 <div class="chat__yourmessage__avartar">
                   <img
+                    :src="'http://127.0.0.1:8000/media/'+ userImg"
+                    class="chat__yourmessage__img"
+                    v-if="userImg"
+                  />
+                  <img
                     :src="avatar"
                     class="chat__yourmessage__img"
-                    v-if="!isSame"
+                    v-else
                   />
 
                 </div>
@@ -96,6 +103,7 @@ export default {
     data() {
       return {
         room_id:this.$route.params.roompk,
+        userImg:this.$route.query.img_raw,
 
         socket:null,
 
@@ -115,6 +123,9 @@ export default {
     },
     username(){
       return this.$store.state.username
+    },
+    touserimg(){
+      return this.$store.state.user_img_saver
     },
   },
   methods: {
@@ -219,9 +230,10 @@ export default {
 .form {
   display: flex;
   justify-content: space-between;
-  padding: 1.4rem;
+  padding: 0.3rem;
+  margin-bottom: 1rem;
   background: #ffffff;
-  border-radius: 30px 30px 24px 24px;
+  border-radius: 15px 15px 24px 24px;
   box-shadow: 0px -5px 30px rgba(0, 0, 0, 0.05);
 }
 
@@ -316,5 +328,10 @@ svg:hover {
   margin: 0;
   font-size: 12px;
   color: #9c9c9c;
+}
+.badge_date {
+  font-size: 0.5rem;
+  color: #595959;
+
 }
 </style>
