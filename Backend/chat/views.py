@@ -66,6 +66,9 @@ def room_list(request):
             if user_in_user_info == profile.get('user_id'):
                 room.update(dict(user={'user_id':user_in_user_info, 'image_raw':profile.get('image_raw')}))
                 break
+        else:
+            room.update(dict(user={'user_id':user_in_user_info, 'image_raw':None}))
+                
     
     # 메세지 가져오기 
     messages = Message.objects.filter(room_id__in=rooms_idxs).values('content','created_at', 'user_id','room_id')
@@ -82,16 +85,19 @@ def room_list(request):
             
         room_messages.sort(key=lambda x:x.get('created_at'))
         last_message = room_messages[-1]
-        message_unread_cnt = 0
-        for message in reversed(room_messages):
-            if message.get('created_at') > room.get('last_read_at'):
-                message_unread_cnt += 1
-            else:
-                break
+        if not room.get('last_read_at'):
+            message_unread_cnt = len(room_messages)
+        else:
+            message_unread_cnt = 0
+            for message in reversed(room_messages):
+                if message.get('created_at') > room.get('last_read_at'):
+                    message_unread_cnt += 1
+                else:
+                    break
         room.update(dict(message_unread_cnt=message_unread_cnt, last_message=last_message))
    
     # 안읽은 메시지 순으로 정렬 
-    rooms.sort(key=lambda x : x['last_message']['created_at'])
+    rooms.sort(key=lambda x : x['last_message']['created_at'], reverse=True)
     
     paginator = PageNumberPagination()
     paginator.page_size = 12

@@ -51,6 +51,10 @@ class ChatConsumer(WebsocketConsumer):
         user_id = event["user_id"]
         content = event["content"]
         created_at = event["created_at"]
+        
+        # Redis 에서 현재 채팅방에 들어와있는 사람 판단 
+        # is_read 만들어서 전송
+        # django core cache 찾아보기
 
         # Send message to WebSocket
         self.send(text_data=json.dumps({"user_id": user_id, 'content': content, 'created_at':created_at}))
