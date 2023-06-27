@@ -177,7 +177,7 @@ export default {
     getUserProfileInfo(){
       axios({
         method: 'get',
-        url: `${API_URL}/accounts/${this.user}/`,
+        url: `${API_URL}/accounts/profile/detail/${this.user}/`,
         headers: {
           'Authorization': 'Token ' + this.token
           }

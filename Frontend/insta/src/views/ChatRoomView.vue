@@ -6,7 +6,6 @@
           안녕하세요. {{ username }}님!
         </span>
       </div>
-
        <div class="chat__body" id="chat__body">
           <div v-for="msg in msgs" :key="msg.pk">
               <div

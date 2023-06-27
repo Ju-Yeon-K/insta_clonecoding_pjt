@@ -14,6 +14,7 @@ export default new Vuex.Store({
   state: {
     token: null,
     username: "AnonymousUser",
+    // my_img: null,
   },
   getters: {
   },

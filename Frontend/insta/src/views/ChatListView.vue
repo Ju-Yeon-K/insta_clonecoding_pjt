@@ -4,7 +4,8 @@
 
       <!-- 채팅방 목록 -->
       <div v-for="room in rooms" :key="room.room_id">
-        <router-link :to="{ name:'chatRoom', params: {roompk : room.room_id} }">
+        <!-- room.user (딕셔너리) 형태 전달해야함. -->
+        <router-link :to="{ name:'chatRoom', params: {roompk : room.room_id} }"> 
           <b-list-group-item button class="d-flex justify-content-between align-items-center">
             채팅하기
             <b-badge pill variant="primary">Primary</b-badge>
