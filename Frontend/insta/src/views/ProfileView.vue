@@ -124,8 +124,11 @@
         <div class="row">
           <div class="col-2 mt-2">
             <button type="button" @click.prevent="follow">  
-                <button v-if="followers.includes(`${username}`)" type="submit" class="btn btn-secondary" style="width: 11rem;">팔로잉</button> 
-                <button v-else type="" class="btn btn-primary" style="width: 11rem;">팔로우</button>
+                <button v-if="followers.includes(`${username}`)" type="submit" class="btn btn-secondary" style="width: 5rem;">팔로잉</button> 
+                <button v-else type="" class="btn btn-primary" style="width: 5rem;">팔로우</button>
+            </button> 
+            <button type="button" @click.prevent="startChat">  
+                <button type="" class="btn btn-secondary ms-1" style="width: 5rem;">메세지</button>
             </button>
           </div>
         </div>
@@ -237,6 +240,25 @@ export default {
       })
       .catch((err) => {
         console.log(err)
+      })
+    },
+    startChat(){
+      axios({
+        method: 'post',
+        url: `${API_URL}/chat/create/`,
+        data: {
+          "to_user" : this.user
+        },
+        headers: {
+          'Authorization': 'Token ' + this.token
+          }
+      })
+      .then((res) => {
+        this.$router.push({name : 'chatRoom', params: {roompk : res.data.room_id}})
+      })
+      .catch((err) => {
+        console.log(err)
+        alert('메세지를 보내는 중 에러 발생. ')
       })
     },
   },
