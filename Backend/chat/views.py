@@ -46,12 +46,12 @@ def room_create(request):
         RoomJoin.objects.create(room_id=new_room.pk, user_id=request.user.username)
         return Response({'room_id':new_room.pk}, status=status.HTTP_200_OK)
 
+
 # 현재 살아있는 채팅방 목록
-# 안읽은 메시지 순으로 정렬 + 메세지 있는 경우에만 전송 로직이 추가되어야 함. 
 @api_view(('GET',))
 def room_list(request):
     # 유저의 채팅방 목록 + 접속 유저가 마지막으로 읽은 시간
-    rooms = RoomJoin.objects.filter(user_id=request.user).values('room_id','last_read_at') 
+    rooms = RoomJoin.objects.filter(user_id=request.user).values('room_id','last_read_at')
     rooms_idxs = [ room.get('room_id') for room in rooms ]
     
     # 채팅방의 to user
@@ -70,9 +70,16 @@ def room_list(request):
     # 메세지 가져오기 
     messages = Message.objects.filter(room_id__in=rooms_idxs).values('content','created_at', 'user_id','room_id')
     
+    del_list = []
     # 메시지 정보를 response에 추가 
     for room in rooms:
         room_messages = find_dicts_with_value(messages, 'room_id', room.get('room_id'))
+        
+        # 메세지 없는 경우에는 채팅방을 화면에 보여주지 않음. 
+        if not room_messages:
+            del_list.append(room)
+            continue
+            
         room_messages.sort(key=lambda x:x.get('created_at'))
         last_message = room_messages[-1]
         message_unread_cnt = 0
@@ -82,12 +89,19 @@ def room_list(request):
             else:
                 break
         room.update(dict(message_unread_cnt=message_unread_cnt, last_message=last_message))
-        
+    
+    for del_room in del_list:
+        rooms.remove(del_room)
+    
+    # 안읽은 메시지 순으로 정렬 
+    list(rooms).sort(key=lambda x : x['last_message']['created_at'])
+    
     paginator = PageNumberPagination()
     paginator.page_size = 12
     return_list = paginator.paginate_queryset(rooms, request)
     response = paginator.get_paginated_response(return_list)
-    return Response(response.data, status=status.HTTP_200_OK)
+    return Response(rooms, status=status.HTTP_200_OK) # response.data, 
+
 
 # 채팅방의 메세지 
 @api_view(('GET',))
@@ -104,8 +118,6 @@ def message_list(request, room_pk):
     for message in messages:
         is_read = False if message.get('created_at') < to_user_last_read_at else True
         message.update(dict(is_read=is_read))
-    
-    
     
     paginator = PageNumberPagination()
     paginator.page_size = 30
