@@ -11,9 +11,15 @@ from .serializers import UserProfileSerializer, ProfileSerializer
 
 
 @api_view(('GET',))
-def profile(request, user_name):
+def profile_detail(request, user_name):
     user = get_object_or_404(User, username=user_name)
     serializer = UserProfileSerializer(user)
+    return Response(serializer.data, status=status.HTTP_200_OK)
+
+@api_view(('GET',))
+def profile(request, user_name):
+    user = get_object_or_404(Profile, username=user_name)
+    serializer = ProfileSerializer(user)
     return Response(serializer.data, status=status.HTTP_200_OK)
 
 @api_view(('POST',))

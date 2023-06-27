@@ -1,8 +1,8 @@
+from collections import defaultdict
+
 from django.shortcuts import render
 from django.db import transaction
 from django.db.models import Q
-
-from collections import defaultdict
 
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
@@ -46,7 +46,8 @@ def room_create(request):
         RoomJoin.objects.create(room_id=new_room.pk, user_id=request.user.username)
         return Response({'room_id':new_room.pk}, status=status.HTTP_200_OK)
 
-# 현재 살아있는 채팅방 목록 : 안읽은 메시지 순으로 정렬 + 메세지 있는 경우에만 전송
+# 현재 살아있는 채팅방 목록
+# 안읽은 메시지 순으로 정렬 + 메세지 있는 경우에만 전송 로직이 추가되어야 함. 
 @api_view(('GET',))
 def room_list(request):
     # 유저의 채팅방 목록 + 접속 유저가 마지막으로 읽은 시간
@@ -86,15 +87,25 @@ def room_list(request):
     paginator.page_size = 12
     return_list = paginator.paginate_queryset(rooms, request)
     response = paginator.get_paginated_response(return_list)
-    return Response(rooms, status=status.HTTP_200_OK)
+    return Response(response.data, status=status.HTTP_200_OK)
 
 # 채팅방의 메세지 
 @api_view(('GET',))
 def message_list(request, room_pk):
-    # last_read_at = 상대방 유저가 마지막으로 읽은 시간 가져옴.
-    messages = Message.objects.filter(room_id=room_pk).values( # list 형태임. is_read 추가
+    # 상대방 유저가 마지막으로 읽은 시간 가져옴.
+    to_user_read_info = RoomJoin.objects.filter(room_id=room_pk).filter(~Q(user_id=request.user)).values('last_read_at', 'created_at')[0]
+    to_user_last_read_at = to_user_read_info.get('last_read_at') if to_user_read_info.get('last_read_at') else to_user_read_info.get('created_at')
+    
+    # 채팅방의 모든 메시지 시간순 정렬
+    messages = Message.objects.filter(room_id=room_pk).values(
         'user_id', 'content','created_at'
         ).order_by('-created_at') 
+    
+    for message in messages:
+        is_read = False if message.get('created_at') < to_user_last_read_at else True
+        message.update(dict(is_read=is_read))
+    
+    
     
     paginator = PageNumberPagination()
     paginator.page_size = 30
