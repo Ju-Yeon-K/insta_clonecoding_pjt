@@ -52,16 +52,21 @@ def room_create(request):
 def room_list(request):
     # 유저의 채팅방 목록 + 접속 유저가 마지막으로 읽은 시간
     rooms = list(RoomJoin.objects.filter(user_id=request.user).values('room_id','last_read_at'))
-    rooms_idxs = [ room.get('room_id') for room in rooms ]
-    
+    # rooms_idxs = [ room.get('room_id') for room in rooms ]
+    rooms_dict = {room['room_id']: room for room in rooms}
+    rooms_idxs = rooms_dict.keys()
     # 채팅방의 to user
-    to_users = RoomJoin.objects.filter(room_id__in=rooms_idxs).filter(~Q(user_id=request.user)).values('user_id','room_id')
-    to_users_idxs = [ user.get('user_id') for user in to_users ]
+    to_users = RoomJoin.objects.filter(Q(room_id__in=rooms_idxs) & ~Q(user_id=request.user)).values('user_id','room_id')
+    # to_users_idxs = [ user.get('user_id') for user in to_users ]
+    to_users_dict = {to_user['room_id']: to_user['user_id'] for to_user in to_users}
+    
     
     # user, profile 정보를 response에 추가
-    profiles = Profile.objects.filter(user_id__in=to_users_idxs).values('user_id', 'image_raw')
-    for room in rooms:
+    profiles = Profile.objects.filter(user_id__in=to_users_dict.keys()).values('user_id', 'image_raw')
+    profile_dict = {profile['user_id']: profile['image_raw'] for profile in profiles}
+    for room in rooms:        
         user_in_user_info = find_dicts_with_value(to_users, 'room_id', room.get('room_id'))[0].get('user_id')
+        
         for profile in profiles:
             if user_in_user_info == profile.get('user_id'):
                 room.update(dict(user={'user_id':user_in_user_info, 'image_raw':profile.get('image_raw')}))
