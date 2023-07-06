@@ -130,7 +130,7 @@ CHANNEL_LAYERS = {
     'default': {
         'BACKEND': 'channels_redis.core.RedisChannelLayer',
         'CONFIG': {
-            "hosts": [('host.docker.internal', 6379)],
+            "hosts": [('localhost', 6379)],
         },
     },
 }
@@ -142,6 +142,7 @@ CHANNEL_LAYERS = {
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
+        # "NAME" table 이름이랑 동일하게
         'NAME': 'instapjt',
         'HOST': os.environ.get('MYSQL_HOST'),
         'USER': os.environ.get('MYSQL_USER'),
