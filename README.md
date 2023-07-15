@@ -31,7 +31,7 @@
 
 <h3><img src="./images/1.png" style="width:22px">. 구현중 이슈&해결과정</h3>   
 
-- Restful 한 url 설계
+- [Restful 한 url 설계](https://juyeon-note.notion.site/Restful-API-8c84872e398f425ba74f260ee01346c2)
 - 동기/비동기 & Django 에서 웹소켓 연결시 비동기 처리 -> AsyncWebsocketConsumer 로 [django channels 공식 문서](https://channels.readthedocs.io/en/stable/topics/databases.html)
 - ASGI & WSGI (django에서 비동기 동작을 할 수 있도록 실행하는 방법 - daphne/uvicorn/gunicorn-asgi 처리가 필요)
 - Chat DB 설계 (개념적 모델링 -> 논리적 모델링) -> 식별관계, 비식별관계
